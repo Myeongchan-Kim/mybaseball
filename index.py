@@ -2,14 +2,16 @@ from flask import Flask
 from flask.ext.mysqldb import MySQL
 
 app = Flask(__name__)
-app.config['MYSQL_DB'] = 'test'
+app.config['MYSQL_DB'] = 'mybaseball'
+app.config['MYSQL_USER'] = 'guest'
+app.config['MYSQL_PASSWORD'] = 'aOVG1L2xDC'
 mysql = MySQL(app)
 
 
 @app.route('/')
 def welcome():
     cur = mysql.connection.cursor()
-    cur.execute('''SELECT * FROM book''')
+    cur.execute('''SELECT "hello world" ''')
     result = cur.fetchall()
     return str(result)
 
