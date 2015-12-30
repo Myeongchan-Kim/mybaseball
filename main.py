@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask.ext.mysqldb import MySQL
 
 app = Flask(__name__)
@@ -14,7 +14,7 @@ def welcome():
     cur.execute('''USE mybaseball ''')
     cur.execute('''SELECT * FROM BOOK ''')
     result = cur.fetchall()
-    return str(result)
+    return render_template('test.html')
 
 if __name__ == '__main__':
     app.debug = True
