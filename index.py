@@ -11,7 +11,8 @@ mysql = MySQL(app)
 @app.route('/')
 def welcome():
     cur = mysql.connection.cursor()
-    cur.execute('''SELECT "hello world" ''')
+    cur.execute('''USE mybaseball ''')
+    cur.execute('''SELECT * FROM BOOK ''')
     result = cur.fetchall()
     return str(result)
 
