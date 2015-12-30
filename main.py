@@ -9,12 +9,16 @@ mysql = MySQL(app)
 
 
 @app.route('/')
-def welcome():
+def test():
     cur = mysql.connection.cursor()
-    cur.execute('''USE mybaseball ''')
-    cur.execute('''SELECT * FROM BOOK ''')
+    cur.execute('''USE test ''')
+    key_list = ['title', 'author']
+    key_string = ', '.join(key_list)
+    cur.execute('SELECT ' + key_string + ' FROM book')
+
     result = cur.fetchall()
-    return render_template('test.html')
+
+    return render_template('test.html', result=result, key_list=key_list, col_num=len(key_list))
 
 if __name__ == '__main__':
     app.debug = True

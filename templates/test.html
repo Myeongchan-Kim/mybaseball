@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Page</title>
+</head>
+<body>
+    <h1>Test Web page</h1>
+    {{ string }}
+    <ul id="bookList">
+    {% for row in result %}
+        <li><ul id="bookRow">
+        {% for i in range(col_num) %}
+            <li>{{ key_list[i] }} : {{ row[i] }}</li>
+        {% endfor %}
+        </ul></li>
+    {% endfor %}
+    </ul>
+    {# a comment #}
+</body>
+</html>
