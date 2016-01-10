@@ -1,0 +1,45 @@
+* { margin:0; 
+  font-size:small; 
+  font-family:'NanumGothic', '나눔고딕', 'Malgun Gothic', '맑은 고딕', 'dotum', '돋움'; 
+  font-weight:bold;
+  list-style:none;
+  }
+h1 { font-size:2em; color:#DFF; font-weight:bold; background:#566; padding:10px}
+h2 { display:none; padding:5px; font-size:2em; font-weight:bold; color:#FF0; background:#999; border-bottom:3px solid #FFF; margin:20px; margin-bottom:0}
+h3 { padding:5px;font-size:large; font-weight:bold; color:#EEA; background:#666; border-bottom:3px solid #FFF; margin:20px;margin-bottom:0px;}
+h4 { padding:5px;font-weight:bold; color:#DDB; background:#666; border-bottom:2px solid #FFF; margin:10px;margin-bottom:0px;}
+a { font:inherit; color:#EEE; text-decoration:none}
+a:hover { text-decoration:underline;}
+input{}
+input : invalid{background:red;}
+textarea {width:90%;height:300px;}
+body {background:#344;}
+footer {
+    padding : 10px;
+    padding-top : 20px;
+    background : #455;
+}
+
+
+table {
+    border: 3px solid #DFF;
+    margin: 0 auto;
+    margin-top : 10px;
+    padding : 10px;
+}
+
+table td {
+    color : #200;
+}
+
+table .selected{
+    background-color : #566;
+}
+
+table .index {
+    color : #68F;
+}
+
+nav li {
+    font-size:1.4em;
+}
