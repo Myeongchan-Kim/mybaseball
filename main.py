@@ -5,6 +5,7 @@ app = Flask(__name__)
 app.config['MYSQL_DB'] = 'mybaseball'
 app.config['MYSQL_USER'] = 'guest'
 app.config['MYSQL_PASSWORD'] = 'aOVG1L2xDC'
+app.config['MYSQL_HOST'] = 'localhost'
 mysql = MySQL(app)
 
 
@@ -18,7 +19,7 @@ def test():
 
     result = cur.fetchall()
 
-    return render_template('test.html', result=result, key_list=key_list, col_num=len(key_list))
+    return render_template('layout.html')
 
 if __name__ == '__main__':
     app.debug = True

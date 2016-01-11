@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="search_box">
+        {% block search_box %}
+        {% endblock %}
+    </div>
+    <div class="result">
+        <table class="result_table">
+         <tr>
+             <th></th>
+             <th></th>
+             <th></th>
+             <th></th>
+         </tr>
+        {% for row in result_table %}
+            <tr></tr>
+        {% else %}
+            <tr><span class="warning">결과가 없습니다.</span></tr>
+        {% endfor %}
+        </table>
+    </div>
+{% end block %}

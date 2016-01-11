@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Mybaseball : 사회인 야구를 위한 필기장</title>
+    <style>
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo_box main_logo_box">
+        <h1>Mybaseball</h1>
+    </div>
+    <div class="title_box">
+        사회인 야구를 위한 필기장
+    </div>
+    <div class="route">
+    </div>
+    <nav>
+        <ul class="main_way_list">
+            <li><a href="{{ url_for('search') }}">검색</a></li>
+            <li><a href="{{ url_for('insert') }}">등록</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    {% block body %} {% endblock %}
+</main>
+<footer><span>copyright&copy;2016</span>
+<span>All rights reserved by Paul-Kim</span>
+</footer>
+<script>
+
+</script>
+</body>
+</html>
