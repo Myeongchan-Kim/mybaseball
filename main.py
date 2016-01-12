@@ -102,7 +102,7 @@ def add_object(object_type):
 
 @app.route('/show/<object_type>/<int:id_num>', methods=['GET'])
 def show_default(object_type, id_num):
-    redirect_url = 'show/%s/%d/1' % (object_type, id_num)
+    redirect_url = 'show/%s/%d/TRUE' % (object_type, id_num)
     return redirect(redirect_url)
 
 
