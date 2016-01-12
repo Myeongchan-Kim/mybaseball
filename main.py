@@ -19,6 +19,11 @@ def get_table(object_type, id_num):
     if id_num == 0:
         description = ('No', " ", 'Data')
     elif object_type == object_type_list[0]:
+
+        query = "SELECT league_year, league_name FROM league WHERE league_id = %d" % id_num
+        cur.execute(query)
+        description = cur.fetchall()
+
         query = "CALL load_rank_table(%d)" % id_num
         cur.execute(query)
         table = {
@@ -33,9 +38,6 @@ def get_table(object_type, id_num):
         }
         tables.append(table)
 
-        query = "SELECT league_year, league_name FROM league WHERE league_id = %d" % id_num
-        cur.execute(query)
-        description = cur.fetchall()
         query = '''
             SELECT game_id , league_name , round , gameday , home, away, result, hscore, ascore
             FROM show_games where league_id = %d
@@ -53,7 +55,31 @@ def get_table(object_type, id_num):
         }
         tables.append(table)
     elif object_type == object_type_list[1]:
-        pass
+
+        query = "SELECT * FROM team WHERE team_id = %d" % id_num
+        cur.execute(query)
+        description = cur.fetchall()
+
+        query = "(SELECT game_id, league_name, round, gameday, home, away, result, hscore, ascore \
+                FROM show_games \
+                WHERE h_id = %d) \
+                UNION ALL \
+                (SELECT game_id, league_name, round, gameday, home, away, \
+                        IF(result = '승', '패', if(result = '무', '무', '승')), hscore, ascore \
+                FROM show_games \
+                WHERE a_id = %d);" % (id_num, id_num)
+        cur.execute(query)
+        table = {
+            "index": ['id'.decode(charset),
+                      '리그명'.decode(charset),
+                      '라운드'.decode(charset),
+                      '경기날짜'.decode(charset),
+                      'home', 'away',
+                      '결과'.decode(charset),
+                      'hscore', 'ascore'],
+            "value": cur.fetchall()
+        }
+        tables.append(table)
     return description, tables
 
 
@@ -61,14 +87,7 @@ def get_table(object_type, id_num):
 def test():
     global object_type_list
     cur = mysql.connection.cursor()
-    cur.execute('''USE test ''')
-    key_list = ['title', 'author']
-    key_string = ', '.join(key_list)
-    cur.execute('SELECT ' + key_string + ' FROM book')
-
-    result = cur.fetchall()
-
-    return render_template('layout.html', object_list=object_type_list)
+    return redirect('show/league/1')
 
 
 @app.route('/add/<object_type>', methods=['GET'])
@@ -82,7 +101,13 @@ def add_object(object_type):
 
 
 @app.route('/show/<object_type>/<int:id_num>', methods=['GET'])
-def show_object(object_type, id_num):
+def show_default(object_type, id_num):
+    redirect_url = 'show/%s/%d/1' % (object_type, id_num)
+    return redirect(redirect_url)
+
+
+@app.route('/show/<object_type>/<int:id_num>/<where_string>', methods=['GET'])
+def show_object(object_type, id_num, where_string):
     global object_type_list
     if object_type not in object_type_list:
         return render_template('error.html')

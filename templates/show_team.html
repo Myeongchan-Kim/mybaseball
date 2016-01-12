@@ -12,9 +12,15 @@
             </p>
         </div>
     </div>
-    <!--<div class="condition_container">-->
-        <!--<h3>condition box</h3>-->
-    <!--</div>-->
+    <div class="condition_container">
+        <h3>condition box</h3>
+        <form>
+            <div class= "wrapper">
+            <span>YEAR : </span><input type="year" />
+            <input type="button" name="submit" value="적용" />
+            </div>
+        </form>
+    </div>
     <div class="result_container">
         <h3>result</h3>
         {% for table in table_list %}

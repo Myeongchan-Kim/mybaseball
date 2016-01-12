@@ -1060,3 +1060,12 @@ SELECT * FROM game;
 SELECT * FROM participate;
 DELETE FROM participate WHERE league_id = 1 AND team_id = 18;
 SELECT * FROM team;
+
+USE mybaseball;
+(SELECT game_id, league_name, round, gameday, home, away, result, hscore, ascore 
+FROM show_games 
+WHERE h_id = 2)
+UNION ALL
+(SELECT game_id, league_name, round, gameday, home, away, IF(result = '승', '패', if(result = '무', '무', '승')), result, hscore, ascore 
+FROM show_games 
+WHERE a_id = 2);
