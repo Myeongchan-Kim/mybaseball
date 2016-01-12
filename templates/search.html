@@ -1,22 +1,38 @@
 {% extends "layout.html" %}
 {% block body %}
-    <div class="search_box">
-        {% block search_box %}
-        {% endblock %}
+    <div class="description">
+        <h3>description</h3>
     </div>
-    <div class="result">
+    <div class="condition_container">
+        <h3>condition box</h3>
+    </div>
+    <div class="result_container">
+        <h3>result</h3>
         <table class="result_table">
-         <tr>
-             <th></th>
-             <th></th>
-             <th></th>
-             <th></th>
-         </tr>
-        {% for row in result_table %}
-            <tr></tr>
-        {% else %}
-            <tr><span class="warning">결과가 없습니다.</span></tr>
-        {% endfor %}
+            <tr>
+                <th class="index"><a>index</a></th>
+                <th class="selected"><a>col1</a></th>
+                <th><a>col2</a></th>
+                <th><a>col3</a></th>
+            </tr>
+            <tr>
+                <td class="index">row1 </td>
+                <td class="selected">data1</td>
+                <td>data2</td>
+                <td>data3</td>
+            </tr>
+            <tr>
+                <td class="index">row2</td>
+                <td class="selected">data1</td>
+                <td>data2</td>
+                <td>data3</td>
+            </tr>
+            <tr>
+                <td class="index">row3</td>
+                <td class="selected">data1</td>
+                <td>data2</td>
+                <td>data3</td>
+            </tr>
         </table>
     </div>
 {% end block %}

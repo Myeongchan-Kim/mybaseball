@@ -1,37 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <title>mybaseball : 사회인 야구를 위한 필기장</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Mybaseball : 사회인 야구를 위한 필기장</title>
-    <style>
-
-    </style>
+    <link href="{{ url_for('static', filename='style.css') }}"" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <header>
-    <div class="logo_box main_logo_box">
-        <h1>Mybaseball</h1>
+    <div class="logo_container container">
+        <h1>Mybaseball<span class="sub_description">description</span></h1>
     </div>
-    <div class="title_box">
-        사회인 야구를 위한 필기장
+    <div class="location">
+        <span>current location : </span><span>show > league</span>
     </div>
-    <div class="route">
-    </div>
-    <nav>
-        <ul class="main_way_list">
-            <li><a href="{{ url_for('search') }}">검색</a></li>
-            <li><a href="{{ url_for('insert') }}">등록</a></li>
-        </ul>
-    </nav>
 </header>
 <main>
-    {% block body %} {% endblock %}
+    <div class="nav_container container">
+        <nav>
+            <ul class="navigation_list">
+                <li><a href="">add new</a>
+                    <ul class="object_list">
+                    {% for object in object_list %}
+                        <li>{{object}}</li>
+                    {% endfor %}
+                    </ul>
+                </li>
+                <li><a href="">search</a>
+                    <ul class="object_list">
+                    {% for object in object_list %}
+                        <li>{{object}}</li>
+                    {% endfor %}
+                    </ul>
+                </li>
+                <!--<li><a href="">show</a>-->
+                    <!--<ul class="object_list">-->
+                    <!--{% for object in object_list %}-->
+                        <!--<li><a href="{{ url_for('show_object', object_type=object , id_num=0) }}">{{object}}</a></li>-->
+                    <!--{% endfor %}-->
+                    <!--</ul>-->
+                <!--</li>-->
+            </ul>
+        </nav>
+    </div>
+    <div class="main_container">
+    {% block body %}
+    {% endblock %}
+    </div>
 </main>
-<footer><span>copyright&copy;2016</span>
-<span>All rights reserved by Paul-Kim</span>
-</footer>
-<script>
-
-</script>
+<footer>All copyrights reserved by Paul Kim &copy; 2016 </footer>
 </body>
 </html>

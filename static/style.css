@@ -3,6 +3,7 @@
   font-family:'NanumGothic', '나눔고딕', 'Malgun Gothic', '맑은 고딕', 'dotum', '돋움'; 
   font-weight:bold;
   list-style:none;
+  color:#BBB;
   }
 h1 { font-size:2em; color:#DFF; font-weight:bold; background:#566; padding:10px}
 h2 { display:none; padding:5px; font-size:2em; font-weight:bold; color:#FF0; background:#999; border-bottom:3px solid #FFF; margin:20px; margin-bottom:0}
@@ -14,14 +15,24 @@ input{}
 input : invalid{background:red;}
 textarea {width:90%;height:300px;}
 body {background:#344;}
+
+main{
+    min-height:500px;
+}
+
 footer {
     padding : 10px;
     padding-top : 20px;
     background : #455;
 }
 
+ul{
+    padding-left: 20px;
+}
 
 table {
+    width: 700px;
+    text-align: center;
     border: 3px solid #DFF;
     margin: 0 auto;
     margin-top : 10px;
@@ -29,11 +40,17 @@ table {
 }
 
 table td {
-    color : #200;
+}
+
+.wrapper {
+    margin-top:10px;
+    margin-left:30px;
+    margin-right:30px;
 }
 
 table .selected{
     background-color : #566;
+    color : #200;
 }
 
 table .index {
@@ -42,4 +59,15 @@ table .index {
 
 nav li {
     font-size:1.4em;
+}
+
+.nav_container{
+    background-color:#455;
+    padding:20px;
+    float: left;
+}
+
+.main_container{
+    margin-left: 150px;
+    width: 1000px;
 }

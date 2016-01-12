@@ -4,7 +4,7 @@ SELECT * FROM mysql.USER;
 DROP USER IF EXISTS guest@localhost;
 DROP USER IF EXISTS guest@'%';
 CREATE USER guest@localhost IDENTIFIED BY 'aOVG1L2xDC';
-GRANT SELECT ON mybaseball.* TO guest@localhost;
+GRANT  all privileges ON mybaseball.* TO guest@localhost;
 SHOW GRANTS FOR guest@localhost;
 
 USE mybaseball;
@@ -249,12 +249,70 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
+DROP VIEW show_games;
+CREATE VIEW show_games AS
+	SELECT game_id, l.league_id AS league_id, l.league_name AS league_name, round, gameday, th.team_id as h_id, th.team_name AS home, ta.team_id AS a_id, ta.team_name AS away, result, hscore, ascore 
+	FROM game g, team th, team ta , league l
+	WHERE g.hometeam = th.team_id AND g.awayteam = ta.team_id AND g.league_id = l.league_id;
 
+DELIMITER $$
+USE `mybaseball`$$
+CREATE PROCEDURE `load_rank_table`( IN league_number int)
+BEGIN
+SELECT team_name,  COALESCE(win.`승`,0) as `승` ,COALESCE(draw.`무`,0) as `무` , COALESCE(lose.`패`,0) as `패` , COALESCE(win.`승`,0)/(COALESCE(lose.`패`,0)+COALESCE(win.`승`,0)+COALESCE(draw.`무`,0)) AS 승률 
+FROM ( 
+	(SELECT * FROM participate WHERE league_id = league_number) as p
+    LEFT JOIN 
+		team as t
+	ON p.team_id = t.team_id
+    LEFT JOIN 
+		(
+		SELECT SUM(win) as '승', t_id FROM (
+			(SELECT count(*) as win, awayteam as t_id FROM game WHERE league_id = league_number AND result = '패' group by awayteam)
+			UNION ALL
+			(SELECT count(*) as win, hometeam as t_id FROM game WHERE league_id = league_number AND result = '승' group by hometeam)
+			) AS w
+		GROUP BY t_id
+		) as win
+	ON p.team_id = win.t_id
+	LEFT JOIN 
+		(
+		SELECT SUM(win) as '무', t_id FROM (
+			(SELECT count(*) as win, awayteam as t_id FROM game WHERE league_id = league_number AND result = '무' group by awayteam)
+			UNION ALL
+			(SELECT count(*) as win, hometeam as t_id FROM game WHERE league_id = league_number AND result = '무' group by hometeam)
+			) AS d
+		GROUP BY t_id
+		) as draw
+	ON p.team_id = draw.t_id
+    LEFT JOIN 
+		(
+		SELECT SUM(lose) as '패', t_id  FROM (
+			(SELECT count(*) as lose, awayteam as t_id FROM game WHERE league_id = league_number AND result = '승' group by awayteam)
+			UNION ALL
+			(SELECT count(*) as lose, hometeam as t_id FROM game WHERE league_id = league_number AND result = '패' group by hometeam)
+			) AS w
+		GROUP BY t_id
+		) as lose
+	ON p.team_id = lose.t_id
+    )
+ORDER BY `승률` DESC
+;
+END$$
+DELIMITER ;
 
+CALL load_rank_table(1);
+CALL load_rank_table(2);
+
+SELECT game_id, league_name, round, gameday AS '경기날짜', home, away, result AS '결과' , hscore, ascore FROM show_games where league_id = 1;
+
+SELECT game_id , league_name , round , gameday , home, away, result, hscore, ascore
+            FROM show_games where league_id = 1;
+            
 DESC organization;
 SELECT * FROM organization;
 INSERT INTO organization (org_num, org_name) values (1, '한양대학교 야구연합회');
-INSERT INTO organization (ort_num, org_name) values(2, '쥬신 청량중리그');
+INSERT INTO organization (org_num, org_name) values(2, '쥬신 청량중리그');
 INSERT INTO organization VALUES (3, '비공식 경기');
 
 DESC league;
@@ -317,14 +375,14 @@ INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam
 INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (24,2,'리그경기','2011-12-13',1,19,'패',8,15);
 INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (25,2,'리그경기','2011-02-28',1,14,'패',10,17);
 INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (26,2,'리그경기','2011-02-28',1,12,'패',11,13);
-INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (27,2,'리그경기','2010-10-04',1,6,'패',11,12);
-INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (28,2,'리그경기','2010-11-01',1,7,'패',4,15);
-INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (29,2,'리그경기','2010-02-26',7,2,'패',4,10);
-INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (31,2,'리그경기','2010-02-26',2,4,'무',7,7);
-INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (33,2,'리그경기','2010-03-05',8,3,'승',18,0);
-INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (35,2,'리그경기','2010-03-05',8,6,'승',10,0);
-INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (37,2,'리그경기','2010-03-12',5,7,'패',5,7);
-INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (39,2,'리그경기','2010-03-12',8,7,'패',2,9);
+INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (27,1,'리그경기','2010-10-04',1,6,'패',11,12);
+INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (28,1,'리그경기','2010-11-01',1,7,'패',4,15);
+INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (29,1,'리그경기','2010-02-26',7,2,'패',4,10);
+INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (31,1,'리그경기','2010-02-26',2,4,'무',7,7);
+INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (33,1,'리그경기','2010-03-05',8,3,'승',18,0);
+INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (35,1,'리그경기','2010-03-05',8,6,'승',10,0);
+INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (37,1,'리그경기','2010-03-12',5,7,'패',5,7);
+INSERT INTO `game` (`game_id`,`league_id`,`round`,`gameday`,`hometeam`,`awayteam`,`result`,`hscore`,`ascore`) VALUES (39,1,'리그경기','2010-03-12',8,7,'패',2,9);
 
 USE mybaseball;
 DESC participate;
@@ -972,5 +1030,33 @@ INSERT INTO `batter_record` (`game_id`,`player_id`,`total_plate`,`at_bat`,`hit`,
 INSERT INTO `batter_record` (`game_id`,`player_id`,`total_plate`,`at_bat`,`hit`,`hit2`,`hit3`,`hr`,`r`,`rbi`,`bb`,`k`,`sb`,`sac_bunt`,`sac_fly`) VALUES (37,65,3,2,0,0,0,0,0,0,1,0,0,0,0);
 
 SELECT * FROM batter_record;
+SHOW tables;
+SELECT league_year AS '연도', league_name AS '리그명' FROM league WHERE league_id = 1;
 
+SELECT * from participate p INNER JOIN game g
+	ON p.league_id = g.league_id AND p.team_id = g.hometeam
+WHERE p.league_id = 1;
 
+SELECT * from participate p INNER JOIN game g
+	ON p.league_id = 1 AND p.league_id = g.league_id AND p.team_id = g.awayteam;
+    
+    
+SELECT * from participate p INNER JOIN game g
+	ON p.league_id = g.league_id AND (p.team_id = g.awayteam OR p.team_id = g.hometeam)
+WHERE p.league_id = 1;
+
+SELECT * FROM game WHERE league_id = 1;
+
+SELECT game_id, l.league_id AS league_id, l.league_name AS league_name, round, gameday, th.team_name AS home, ta.team_name AS away, result, hscore, ascore 
+FROM game g, team th, team ta , league l
+WHERE g.hometeam = th.team_id AND g.awayteam = ta.team_id AND g.league_id = l.league_id;
+
+SELECT * FROM show_games where league_id = 1;
+
+(SELECT count(result) AS win , h_id, home FROM show_games where league_id = 1 AND result = '승' group by h_id);
+(SELECT count(result) AS win , a_id, away FROM show_games where league_id = 1 AND result = '패' group by a_id);
+
+SELECT * FROM game;
+SELECT * FROM participate;
+DELETE FROM participate WHERE league_id = 1 AND team_id = 18;
+SELECT * FROM team;
