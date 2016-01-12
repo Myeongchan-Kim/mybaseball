@@ -48,8 +48,8 @@ def get_table(object_type, id_num):
                       '리그명'.decode(charset),
                       '라운드'.decode(charset),
                       '경기날짜'.decode(charset),
-                      'home', 'away',
-                      'result',
+                      'HOME', 'AWAY',
+                      '결과(홈팀)'.decode(charset),
                       'hscore', 'ascore'],
             "value": cur.fetchall()
         }
