@@ -249,11 +249,12 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
-DROP VIEW show_games IF EXISTS;
+DROP VIEW IF EXISTS show_games ;
 CREATE VIEW show_games AS
-	SELECT game_id, l.league_id AS league_id, l.league_name AS league_name, round, gameday, th.team_id as h_id, th.team_name AS home, ta.team_id AS a_id, ta.team_name AS away, result, hscore, ascore 
+	SELECT game_id, l.league_id AS league_id, l.league_name AS league_name, l.league_year as season, round, gameday, th.team_id as h_id, th.team_name AS home, ta.team_id AS a_id, ta.team_name AS away, result, hscore, ascore 
 	FROM game g, team th, team ta , league l
 	WHERE g.hometeam = th.team_id AND g.awayteam = ta.team_id AND g.league_id = l.league_id;
+
 
 DELIMITER $$
 USE `mybaseball`$$
@@ -1110,3 +1111,14 @@ FROM (
 	ON p.team_id = lose.t_id
     )
 ORDER BY `승률` DESC;
+
+/*SHOW  team test*/
+(SELECT game_id, league_name, round, gameday, home, away, result, hscore, ascore 
+FROM show_games 
+WHERE h_id = 3 AND gameday >= '2011-01-01') 
+UNION ALL 
+(SELECT game_id, league_name, round, gameday, home, away, 
+		IF(result = '승', '패', if(result = '무', '무', '승')), hscore, ascore 
+FROM show_games 
+WHERE a_id = 3 AND gameday >= '2011-01-01') ;
+

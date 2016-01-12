@@ -17,9 +17,10 @@
         <form>
             <div class= "wrapper">
                 <ul class="condition_list">
-                    <li><span>기간 : </span><input type="date" /><span> 부터 </span><input type="date" /></li>
+                    <li><span>기간 : </span><input id="start_date" type="date" /><span> 부터 </span><input id="end_date" type="date" /></li>
                     <li><span>시즌 : </span>
-                        <select>
+                        <select id="season">
+                            <option value = "" selected> 연도 </option>
                             <option value = "2010">2010</option>
                             <option value = "2011">2011</option>
                         </select>
@@ -29,7 +30,7 @@
                         <label for="unofficial_check">비공식 </label><input id="unofficial_check" name="unofficial_check" type="checkbox" checked/>
                     </li>
                 </ul>
-            <input type="button" name="submit" value="적용" />
+            <input type="button" name="submit" value="적용" onclick="get_where_string();" />
             </div>
         </form>
     </div>

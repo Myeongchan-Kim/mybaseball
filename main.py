@@ -12,7 +12,8 @@ charset = 'utf-8'
 object_type_list = ['league', 'team', 'player', 'game']
 
 
-def get_table(object_type, id_num):
+def get_table(object_type, id_num, where_string="TRUE"):
+    where_string = where_string.encode(charset)
     cur = mysql.connection.cursor()
     cur.execute('USE mybaseball')
     tables = []
@@ -62,12 +63,14 @@ def get_table(object_type, id_num):
 
         query = "(SELECT game_id, league_name, round, gameday, home, away, result, hscore, ascore \
                 FROM show_games \
-                WHERE h_id = %d) \
+                WHERE h_id = %d AND (%s) )\
                 UNION ALL \
                 (SELECT game_id, league_name, round, gameday, home, away, \
                         IF(result = '승', '패', if(result = '무', '무', '승')), hscore, ascore \
                 FROM show_games \
-                WHERE a_id = %d);" % (id_num, id_num)
+                WHERE a_id = %d AND (%s) ) \
+                " % (id_num, where_string, id_num, where_string)
+        print query
         cur.execute(query)
         table = {
             "index": ['id'.decode(charset),
@@ -102,7 +105,7 @@ def add_object(object_type):
 
 @app.route('/show/<object_type>/<int:id_num>', methods=['GET'])
 def show_default(object_type, id_num):
-    redirect_url = 'show/%s/%d/TRUE' % (object_type, id_num)
+    redirect_url = 'show/%s/%d/where:TRUE' % (object_type, id_num)
     return redirect(redirect_url)
 
 
@@ -112,7 +115,7 @@ def show_object(object_type, id_num, where_string):
     if object_type not in object_type_list:
         return render_template('error.html')
     html_file_name = 'show_' + object_type + '.html'
-    (description, table) = get_table(object_type, id_num)
+    (description, table) = get_table(object_type, id_num, where_string[6:])
     return render_template(html_file_name,
                            object_list=object_type_list,
                            description=description,
