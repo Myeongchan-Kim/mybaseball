@@ -1066,6 +1066,47 @@ USE mybaseball;
 FROM show_games 
 WHERE h_id = 2)
 UNION ALL
-(SELECT game_id, league_name, round, gameday, home, away, IF(result = '승', '패', if(result = '무', '무', '승')), result, hscore, ascore 
+(SELECT game_id, league_name, round, gameday, home, away, IF(result = '승', '패', if(result = '무', '무', '승')), hscore, ascore 
 FROM show_games 
 WHERE a_id = 2);
+
+SELECT * FROM team WHERE team_id = 1;
+
+SELECT team_name,  COALESCE(win.`승`,0) as `승` ,COALESCE(draw.`무`,0) as `무` , COALESCE(lose.`패`,0) as `패` , COALESCE(win.`승`,0)/(COALESCE(lose.`패`,0)+COALESCE(win.`승`,0)+COALESCE(draw.`무`,0)) AS 승률 
+FROM ( 
+	(SELECT * FROM participate WHERE league_id = league_number) as p
+    LEFT JOIN 
+		team as t
+	ON p.team_id = t.team_id
+    LEFT JOIN 
+		(
+		SELECT SUM(win) as '승', t_id FROM (
+			(SELECT count(*) as win, awayteam as t_id FROM game WHERE league_id = league_number AND result = '패' group by awayteam)
+			UNION ALL
+			(SELECT count(*) as win, hometeam as t_id FROM game WHERE league_id = league_number AND result = '승' group by hometeam)
+			) AS w
+		GROUP BY t_id
+		) as win
+	ON p.team_id = win.t_id
+	LEFT JOIN 
+		(
+		SELECT SUM(win) as '무', t_id FROM (
+			(SELECT count(*) as win, awayteam as t_id FROM game WHERE league_id = league_number AND result = '무' group by awayteam)
+			UNION ALL
+			(SELECT count(*) as win, hometeam as t_id FROM game WHERE league_id = league_number AND result = '무' group by hometeam)
+			) AS d
+		GROUP BY t_id
+		) as draw
+	ON p.team_id = draw.t_id
+    LEFT JOIN 
+		(
+		SELECT SUM(lose) as '패', t_id  FROM (
+			(SELECT count(*) as lose, awayteam as t_id FROM game WHERE league_id = league_number AND result = '승' group by awayteam)
+			UNION ALL
+			(SELECT count(*) as lose, hometeam as t_id FROM game WHERE league_id = league_number AND result = '패' group by hometeam)
+			) AS w
+		GROUP BY t_id
+		) as lose
+	ON p.team_id = lose.t_id
+    )
+ORDER BY `승률` DESC;
