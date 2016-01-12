@@ -249,7 +249,7 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
-DROP VIEW show_games;
+DROP VIEW show_games IF EXISTS;
 CREATE VIEW show_games AS
 	SELECT game_id, l.league_id AS league_id, l.league_name AS league_name, round, gameday, th.team_id as h_id, th.team_name AS home, ta.team_id AS a_id, ta.team_name AS away, result, hscore, ascore 
 	FROM game g, team th, team ta , league l
