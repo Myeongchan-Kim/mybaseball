@@ -70,7 +70,6 @@ def get_table(object_type, id_num, where_string="TRUE"):
                 FROM show_games \
                 WHERE a_id = %d AND (%s) ) \
                 " % (id_num, where_string, id_num, where_string)
-        print query
         cur.execute(query)
         table = {
             "index": ['id'.decode(charset),
