@@ -16,7 +16,19 @@
         <h3>condition box</h3>
         <form>
             <div class= "wrapper">
-            <span>YEAR : </span><input type="year" />
+                <ul class="condition_list">
+                    <li><span>기간 : </span><input type="date" /><span> 부터 </span><input type="date" /></li>
+                    <li><span>시즌 : </span>
+                        <select>
+                            <option value = "2010">2010</option>
+                            <option value = "2011">2011</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="official_check">공식 </label><input id="official_check" name="official_check" type="checkbox" checked/>
+                        <label for="unofficial_check">비공식 </label><input id="unofficial_check" name="unofficial_check" type="checkbox" checked/>
+                    </li>
+                </ul>
             <input type="button" name="submit" value="적용" />
             </div>
         </form>
