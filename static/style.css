@@ -71,3 +71,7 @@ nav li {
     margin-left: 150px;
     width: 1000px;
 }
+
+.condition_list li{
+    line-height :2.0em
+}

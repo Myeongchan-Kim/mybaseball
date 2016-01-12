@@ -4,6 +4,7 @@
     <title>mybaseball : 사회인 야구를 위한 필기장</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{{ url_for ('static', filename='script.js')}}"></script>
 </head>
 <body>
 <header>
@@ -18,17 +19,17 @@
     <div class="nav_container container">
         <nav>
             <ul class="navigation_list">
-                <li><a href="">add new</a>
+                <li>Add new
                     <ul class="object_list">
                     {% for object in object_list %}
-                        <li>{{object}}</li>
+                        <li><a href="{{ url_for('add_object', object_type=object ) }}">{{object}}</a></li>
                     {% endfor %}
                     </ul>
                 </li>
-                <li><a href="">search</a>
+                <li>Search
                     <ul class="object_list">
                     {% for object in object_list %}
-                        <li>{{object}}</li>
+                        <li><a href="">{{object}}</a></li>
                     {% endfor %}
                     </ul>
                 </li>
