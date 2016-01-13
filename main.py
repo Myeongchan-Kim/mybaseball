@@ -9,7 +9,7 @@ app.config['MYSQL_PASSWORD'] = 'aOVG1L2xDC'
 app.config['MYSQL_HOST'] = 'localhost'
 mysql = MySQL(app)
 charset = 'utf-8'
-object_type_list = ['league', 'team', 'player', 'game']
+object_type_list = ['league', 'team', 'game', 'player']
 
 
 def get_table(object_type, id_num, where_string="TRUE"):
@@ -82,6 +82,51 @@ def get_table(object_type, id_num, where_string="TRUE"):
             "value": cur.fetchall()
         }
         tables.append(table)
+    elif object_type == object_type_list[2]:
+
+        query = "CALL load_game_info(%d)" % id_num
+        cur.execute(query)
+        description = cur.fetchall()
+
+        query = '''
+SELECT p.player_name, b.total_plate, at_bat,
+    hit+hit2+hit3+hr AS total_hit, hit, hit2, hit3, hr,
+    if( at_bat = 0 , '-', (hit+hit2+hit3+hr)/at_bat) as `타율`,
+    if( at_bat = 0 , '-', (hit+hit2*2+hit3*3+hr*4)/at_bat) as `장타율`,
+    rbi, sb r, bb, k ,  COALESCE(hbp, 0) as hbp ,
+    sac_fly as sacf, sac_bunt as sacb,
+    if( COALESCE(at_bat, 0) + COALESCE(sac_fly, 0) + COALESCE(bb, 0) + COALESCE(hbp, 0) = 0, '-', (hit+hit2+hit3+hr+bb+coalesce(hbp, 0))/(COALESCE(at_bat, 0) + COALESCE(sac_fly, 0) + COALESCE(bb, 0) + COALESCE(hbp, 0))) as `출루율`
+FROM
+    (SELECT * FROM batter_record WHERE game_id = %d) as b
+INNER JOIN
+    player AS p
+ON b.player_id = p.player_id;
+''' % id_num
+        cur.execute(query)
+        table = {
+            "index": ['이름'.decode(charset),
+                      '타석'.decode(charset),
+                      '타수'.decode(charset),
+                      'Hit'.decode(charset),
+                      '1b'.decode(charset),
+                      '2b'.decode(charset),
+                      '3b'.decode(charset),
+                      'hr'.decode(charset),
+                      '타율'.decode(charset),
+                      '장타율'.decode(charset),
+                      '타점'.decode(charset),
+                      '특점'.decode(charset),
+                      '볼넷'.decode(charset),
+                      '삼진'.decode(charset),
+                      'hbp'.decode(charset),
+                      '희플'.decode(charset),
+                      '희번'.decode(charset),
+                      '출루율'.decode(charset)
+                      ],
+            "value": cur.fetchall()
+        }
+        tables.append(table)
+
     return description, tables
 
 

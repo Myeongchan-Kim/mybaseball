@@ -305,10 +305,37 @@ DELIMITER ;
 CALL load_rank_table(1);
 CALL load_rank_table(2);
 
-SELECT game_id, league_name, round, gameday AS '경기날짜', home, away, result AS '결과' , hscore, ascore FROM show_games where league_id = 1;
 
-SELECT game_id , league_name , round , gameday , home, away, result, hscore, ascore
-            FROM show_games where league_id = 1;
+DELIMITER $$
+USE `mybaseball`$$
+CREATE PROCEDURE `load_game_info`( IN game_id_num int)
+BEGIN
+SELECT g.game_id, l.league_name AS `리그명` , g.round, g.gameday AS `경기날짜` , h.team_name as home, a.team_name as away , 
+    case (result)
+          when '승' then concat(h.team_name, " ", '승')
+          when '무' then '무승부'
+          when '패' then concat(a.team_name, " ", '승')
+          when '몰수승' then concat(h.team_name, " ", '몰수승')
+          when '몰수패' then concat(a.team_name, " ", '몰수패')
+        else result
+        end AS `결과`, 
+    g.scoreboard, g.location
+FROM 
+	(SELECT * FROM game WHERE game_id = game_id_num) AS g
+    INNER JOIN 
+    team AS h
+    ON g.hometeam = h.team_id
+    INNER JOIN 
+    team AS a
+    ON g.awayteam = a.team_id
+    INNER JOIN
+    league AS l
+    ON g.league_id = l.league_id;
+END$$
+DELIMITER ;
+
+CALL load_game_info(6);
+
             
 DESC organization;
 SELECT * FROM organization;
@@ -1122,3 +1149,33 @@ UNION ALL
 FROM show_games 
 WHERE a_id = 3 AND gameday >= '2011-01-01') ;
 
+
+/*show game information test*/
+SELECT g.game_id, league_id, g.round, g.gameday AS `경기날짜` , h.team_name as home, a.team_name as away , 
+	IF(result = '승', concat(h.team_name, " ", '승'), 
+		IF(result = '패', concat(a.team_name, " ", '승'), '무승부')
+        ) AS `결과`, 
+    g.scoreboard, g.location
+FROM 
+	(SELECT * FROM game WHERE game_id = 3) AS g
+    INNER JOIN 
+    team AS h
+    ON g.hometeam = h.team_id
+    INNER JOIN 
+    team AS a
+    ON g.awayteam = a.team_id
+;
+
+/*batter record test*/    
+SELECT p.player_name, b.total_plate, at_bat,
+	hit+hit2+hit3+hr AS total_hit, hit, hit2, hit3, hr,
+    if( at_bat = 0 , '-', (hit+hit2+hit3+hr)/at_bat) as `타율`,
+	if( at_bat = 0 , '-', (hit+hit2*2+hit3*3+hr*4)/at_bat) as `장타율`,
+	rbi, sb r, bb, k ,  COALESCE(hbp, 0) as hbp ,
+	sac_fly as sacf, sac_bunt as sacb,
+    if( COALESCE(at_bat, 0) + COALESCE(sac_fly, 0) + COALESCE(bb, 0) + COALESCE(hbp, 0) = 0, '-', (hit+hit2+hit3+hr+bb+coalesce(hbp, 0))/(COALESCE(at_bat, 0) + COALESCE(sac_fly, 0) + COALESCE(bb, 0) + COALESCE(hbp, 0))) as `출루율`,
+FROM
+	(SELECT * FROM batter_record WHERE game_id = 1) as b
+INNER JOIN
+	player AS p
+ON b.player_id = p.player_id;
