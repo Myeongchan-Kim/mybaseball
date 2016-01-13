@@ -336,6 +336,28 @@ DELIMITER ;
 
 CALL load_game_info(6);
 
+DROP PROCEDURE IF EXISTS `load_batter_record_of_game`;
+DELIMITER $$
+USE `mybaseball`$$
+CREATE PROCEDURE `load_batter_record_of_game`( IN game_id_num int)
+BEGIN
+	SELECT p.player_name, b.total_plate, at_bat,
+		hit+hit2+hit3+hr AS total_hit, hit, hit2, hit3, hr,
+		if( at_bat = 0 , '-', (hit+hit2+hit3+hr)/at_bat) as `타율`,
+		if( at_bat = 0 , '-', (hit+hit2*2+hit3*3+hr*4)/at_bat) as `장타율`,
+		rbi, sb r, bb, k ,  COALESCE(hbp, 0) as hbp ,
+		sac_fly as sacf, sac_bunt as sacb,
+		if( COALESCE(at_bat, 0) + COALESCE(sac_fly, 0) + COALESCE(bb, 0) + COALESCE(hbp, 0) = 0, '-', (hit+hit2+hit3+hr+bb+coalesce(hbp, 0))/(COALESCE(at_bat, 0) + COALESCE(sac_fly, 0) + COALESCE(bb, 0) + COALESCE(hbp, 0))) as `출루율`
+	FROM
+		(SELECT * FROM batter_record WHERE game_id = game_id_num) as b
+	INNER JOIN
+		player AS p
+	ON b.player_id = p.player_id;
+END$$
+DELIMITER ;
+
+CALL load_batter_record_of_game(6);
+
             
 DESC organization;
 SELECT * FROM organization;
@@ -1173,7 +1195,7 @@ SELECT p.player_name, b.total_plate, at_bat,
 	if( at_bat = 0 , '-', (hit+hit2*2+hit3*3+hr*4)/at_bat) as `장타율`,
 	rbi, sb r, bb, k ,  COALESCE(hbp, 0) as hbp ,
 	sac_fly as sacf, sac_bunt as sacb,
-    if( COALESCE(at_bat, 0) + COALESCE(sac_fly, 0) + COALESCE(bb, 0) + COALESCE(hbp, 0) = 0, '-', (hit+hit2+hit3+hr+bb+coalesce(hbp, 0))/(COALESCE(at_bat, 0) + COALESCE(sac_fly, 0) + COALESCE(bb, 0) + COALESCE(hbp, 0))) as `출루율`,
+    if( COALESCE(at_bat, 0) + COALESCE(sac_fly, 0) + COALESCE(bb, 0) + COALESCE(hbp, 0) = 0, '-', (hit+hit2+hit3+hr+bb+coalesce(hbp, 0))/(COALESCE(at_bat, 0) + COALESCE(sac_fly, 0) + COALESCE(bb, 0) + COALESCE(hbp, 0))) as `출루율`
 FROM
 	(SELECT * FROM batter_record WHERE game_id = 1) as b
 INNER JOIN
