@@ -146,11 +146,11 @@ def show_object(object_type, id_num, where_string):
     if object_type not in object_type_list:
         return render_template('error.html')
     html_file_name = 'show_' + object_type + '.html'
-    (description, table) = get_table(object_type, id_num, where_string[6:])
+    (description, tables) = get_table(object_type, id_num, where_string[6:])
     return render_template(html_file_name,
                            object_list=object_type_list,
                            description=description,
-                           table_list=table)
+                           table_list=tables)
 
 
 @app.route('/search/<object_type>')
