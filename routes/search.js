@@ -3,12 +3,12 @@ var router = express.Router();
 
 router.route('/')
 .get(function (req, res){
-  res.render('test', {data:"default search"});
+  res.redirect('/search/league');
 });
 
 router.route('/league')
 .get(function (req, res){
-  res.render('test', {data:"search league"});
+  res.render('searchLeague', {data:"leagueDefault"});
 });
 
 router.route('/team')

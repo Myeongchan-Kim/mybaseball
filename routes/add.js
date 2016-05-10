@@ -3,7 +3,7 @@ var router = express.Router();
 
 router.route('/')
 .get(function (req, res){
-  res.render('test', {data:"default add"});
+  res.redirect('/add/league');
 });
 
 router.route('/league')

@@ -22,6 +22,9 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
+var showPage =  require('./routes/show');
+app.use('/show', showPage);
+
 var searchPage =  require('./routes/search');
 app.use('/search', searchPage);
 
@@ -33,7 +36,6 @@ app.use('/modify', modifyPage);
 
 var deletePage = require('./routes/delete');
 app.use('/delete', deletePage);
-
 
 app.use(function (req, res){
   res.type('text/plain');
