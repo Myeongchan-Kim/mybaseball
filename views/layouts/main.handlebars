@@ -3,8 +3,8 @@
 <head>
     <title>mybaseball : 사회인 야구를 위한 필기장</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link href="style.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="script.js"></script>
+    <link href="/static/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/static/script.js"></script>
 </head>
 <body>
 <header>
@@ -19,14 +19,20 @@
     <div class="nav_container container">
         <nav>
             <ul class="navigation_list">
-                <li>Add new
+                <li><a href="/add">Add new</a>
                     <ul class="object_list">
-                        <li><a href="">{{link}}</a></li>
+                        <li><a href="/add/league">league</a></li>
+                        <li><a href="/add/team">team</a></li>
+                        <li><a href="/add/player">player</a></li>
+                        <li><a href="/add/game">game</a></li>
                     </ul>
                 </li>
-                <li>Search
+                <li><a href="/search">Search</a>
                     <ul class="object_list">
-                        <li><a href="">{{link}}</a></li>
+                        <li><a href="/search/league">league</a></li>
+                        <li><a href="/search/team">team</a></li>
+                        <li><a href="/search/player">player</a></li>
+                        <li><a href="/search/game">game</a></li>
                     </ul>
                 </li>
             </ul>

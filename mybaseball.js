@@ -12,6 +12,8 @@ app.use(session({
 }));
 app.use(cookieParser());
 app.use(bodyparser);
+app.use('/static', express.static(__dirname + '/static'));
+
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.set('port', process.env.PORT || 3000);
@@ -20,7 +22,18 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
-app.use(express.static(__dirname + '/static'));
+var searchPage =  require('./routes/search');
+app.use('/search', searchPage);
+
+var addPage = require('./routes/add');
+app.use('/add', addPage);
+
+var modifyPage = require('./routes/modify');
+app.use('/modify', modifyPage);
+
+var deletePage = require('./routes/delete');
+app.use('/delete', deletePage);
+
 
 app.use(function (req, res){
   res.type('text/plain');
