@@ -1,1 +1,14 @@
-공사중 searchLeague {{data}}
+<h3>리그목록</h3>
+<table class="result_table">
+    <tr>
+      <th>년도</th><th>이름</th>
+    </tr>
+    {{#each data}}
+    <tr>
+        <td>{{league_year}}</td><td><a href="/search/league/{{league_id}}">{{league_name}}</td>
+    </tr>
+    {{else}}
+    <tr>no data</tr>
+    {{/each}}
+</table>
+공사중 searchLeague<br />
