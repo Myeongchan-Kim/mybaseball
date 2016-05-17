@@ -6,10 +6,10 @@
   color:#BBB;
   }
 h1 { font-size:2em; color:#DFF; font-weight:bold; background:#566; padding:10px}
-h2 { display:none; padding:5px; font-size:2em; font-weight:bold; color:#FF0; background:#999; border-bottom:3px solid #999; margin:20px; margin-bottom:0}
-h3 { padding:5px;font-size:large; font-weight:bold; color:#EEA; background:#666; border-bottom:3px solid #AAA; margin:20px;margin-bottom:0px;}
-h4 { padding:5px;font-weight:bold; color:#DDB; background:#666; border-bottom:2px solid #CCC; margin:10px;margin-bottom:0px;}
-a { font:inherit; color:#EEE;}
+h2 { display:none; padding:5px; font-size:2em; font-weight:bold; color:#FF0; background:#999; border-bottom:3px solid #FFF; margin:20px; margin-bottom:0}
+h3 { padding:5px;font-size:large; font-weight:bold; color:#EEA; background:#666; border-bottom:3px solid #FFF; margin:20px;margin-bottom:0px;}
+h4 { padding:5px;font-weight:bold; color:#DDB; background:#666; border-bottom:2px solid #FFF; margin:20px;margin-bottom:0px;}
+a { font:inherit; color:#EEE; text-decoration:none}
 a:hover { text-decoration:underline;}
 input{}
 input : invalid{background:red;}
@@ -31,11 +31,12 @@ ul{
 }
 
 table {
-    width: 700px;
+    width: 900px;
     text-align: center;
-    border: 3px solid #8AA;
+    border: 3px solid #354;
     margin: 0 auto;
     margin-top : 10px;
+    margin-bottom : 10px;
     padding : 10px;
 }
 

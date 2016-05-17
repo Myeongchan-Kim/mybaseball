@@ -1,14 +1,33 @@
-<h3>리그목록</h3>
-<table class="result_table">
+<div class="show_league">
+  <h3>리그</h3>
+  <table class="result_table">
+      <tr>
+        <th>년도</th><th>이름</th>
+      </tr>
+      {{#each league_list}}
+      <tr>
+          <td>{{league_year}}</td><td><a href="/search/league/{{league_id}}">{{league_name}}</td>
+      </tr>
+      {{else}}
+      <tr>no data</tr>
+      {{/each}}
+  </table>
+</div>
+{{#if rank_table}}
+<div class="ranking_table">
+  <h3>팀 순위표</h3>
+  <table class="result_table">
     <tr>
-      <th>년도</th><th>이름</th>
+      <th>팀명</th><th>승</th><th>무</th><th>패</th><th>승률</th>
     </tr>
-    {{#each data}}
+    {{#each rank_table}}
     <tr>
-        <td>{{league_year}}</td><td><a href="/search/league/{{league_id}}">{{league_name}}</td>
+        <td><a href="/show/team/{{team_id}}">{{team_name}}</a></td><td>{{win}}</td><td>{{draw}}</td><td>{{lose}}</td><td>{{승률}}</td>
     </tr>
     {{else}}
     <tr>no data</tr>
     {{/each}}
-</table>
+  </table>
+</div>
+{{/if}}
 공사중 searchLeague<br />

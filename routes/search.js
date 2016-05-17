@@ -19,7 +19,7 @@ router.route('/league/').get(function (req, res){
   var query = util.format("SELECT league_id, league_year, league_name FROM league;");
   pool.query(query, function(err, rows, fields) {
     if (err) throw err;
-    res.render('searchLeague', {data: rows});
+    res.render('searchLeague', {league_list: rows});
   });
 });
 
@@ -27,7 +27,13 @@ router.route('/league/:id').get(function (req, res){
   var query = util.format("SELECT league_id, league_year, league_name FROM league WHERE league_id = %d;", req.params.id);
   pool.query(query, function(err, rows, fields) {
     if (err) throw err;
-    res.render('searchLeague', {data: rows});
+    var league_list = rows;
+    query = util.format("CALL load_rank_table(%d)", req.params.id);
+    pool.query(query, function (err, rows, fields){
+        var rank_table = rows[0];
+        var rank_desc = rows[1]
+        res.render('searchLeague', { league_list : league_list, rank_table:rank_table, string:JSON.stringify(rank_desc)});
+    });
   });
 });
 
