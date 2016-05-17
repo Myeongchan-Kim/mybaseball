@@ -4,8 +4,8 @@
 {{else}}
 Nodata
 {{/each}}
-{{#if batter_list}}
 <table>
+  {{#if batter_list}}
   <tr>
     <th>이름</th><th>타석</th><th>타수</th>
     <th>총 안타</th><th>2루타</th><th>3루타</th><th>홈런</th>
@@ -30,5 +30,7 @@ Nodata
     <td>{{출루율}}</td>
   </tr>
   {{/each}}
+  {{else}}
+  <tr><td>타자 기록이 없습니다.</td></tr>
+  {{/if}}
 </table>
-{{/if}}

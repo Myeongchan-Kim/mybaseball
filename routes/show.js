@@ -41,7 +41,6 @@ router.route('/team/:id').get(function (req, res){
       var batter_table = rows[0];
       res.render('show_team', {team_info: team_info, batter_list: batter_table});
     })
-
   });
 });
 
