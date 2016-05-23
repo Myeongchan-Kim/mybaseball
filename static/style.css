@@ -40,7 +40,21 @@ table {
     padding : 10px;
 }
 
+table .header{
+  color: #CEC;
+}
+table .header:hover{
+  cursor: pointer;
+}
+table .headerSortDown{
+  background-color: #633;
+}
+
+table .headerSortUp{
+  background-color: #363;
+}
 table td {
+  transition-duration: : 2s;
 }
 
 .wrapper {

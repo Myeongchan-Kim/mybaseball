@@ -13,6 +13,7 @@ app.use(session({
 app.use(cookieParser());
 app.use(bodyparser);
 app.use('/static', express.static(__dirname + '/static'));
+app.use('/node_modules', express.static(__dirname + '/node_modules'));
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
