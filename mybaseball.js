@@ -1,9 +1,15 @@
 var express = require('express');
 var app = express();
-var handlebars = require('express-handlebars').create({defaultLayout:'main'}); //템플릿
+var handlebars = require('express-handlebars')
+.create({
+  defaultLayout:'main',
+  helpers: {
+      'range': require('handlebars-helper-range')
+    }
+}); //템플릿
 var bodyparser = require('body-parser').urlencoded({extended:true}); //form 평문전달
 var cookieParser = require('cookie-parser'); //쿠키 관리
-var session = require('express-session'); //세션
+var session = require('express-session'); //세션var Handlebars = require('handlebars');
 
 app.use(session({
   secret:'my_secret',

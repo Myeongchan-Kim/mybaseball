@@ -1,0 +1,35 @@
+<h3>리그 추가</h3>
+{{!--data--}}
+<form method="POST" action="">
+  <div class = "wrapping-box">
+  <ul>
+    <li><span>소속</span>
+      <select name="org_num" class="org_select">
+        {{#each org_list}}
+        <option value="{{org_num}}">{{org_name}}</option>
+        {{/each}}
+        <option value="">추가..</option>
+      </select>
+    </li>
+    <li><span>년도</span>
+      <select name="league_year">
+        {{#range 2016 2009 -1}}
+        <option value="{{this}}">{{this}}</option>
+        {{/range}}
+      </select>
+    </li>
+    <li>리그이름 : <input type="text" name="league_name" class="required" required ></li>
+    <input type="submit" value="입력" id="submit_button">
+  </div>
+</form>
+<script>
+$(".org_select").change(function (){
+  if($(this).children(":selected").html()== "추가..")
+  {
+    window.location.assign("/add/organization");
+  }
+});
+$("#submit_button").click(function(){
+  $(".required").val($(".required").val().trim());
+});
+</script>
