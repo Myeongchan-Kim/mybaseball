@@ -33,7 +33,7 @@ router.route('/league/rank/pitcher/:leagueId')
 
 router.route('/team/:id').get(function (req, res){
   var query = util.format("select * from team where team_id = %d;", req.params.id);
-  pool.query(query, function(err, rows, fields) {
+  pool.query(query, function(err, rows, fields) { // 기본정보 로드
     if (err) throw err;
     var team_info = rows
     query  = util.format("CALL load_batter_record_of_team(%d);", req.params.id);
@@ -55,9 +55,23 @@ router.route('/player/:id').get(function (req, res){
   });
 });
 
-router.route('/game/:id')
-.get(function (req, res){
-  res.render('test', {data:req.params.id});
+router.route('/game/:id').get(function (req, res){
+  var query  = util.format("CALL load_game_info(%d)", req.params.id);
+  pool.query(query, function(err, rows, fields) {
+    var game_info = rows[0];
+    var hometeam = rows[0][0]['hteam_id'];
+    var awayteam;
+    query = util.format("CALL load_batter_record_of_game_team(%d, %d);", req.params.id, hometeam);
+    pool.query(query, function(err, rows, fields) {
+      var home_batter_List = rows[0];
+      var away_batter_List;
+    res.render('show_game', {
+      game_info : game_info,
+      home_batter_List: home_batter_List,
+      away_batter_List:away_batter_List,
+      data: JSON.stringify(rows)});
+    });
+  });
 });
 
 module.exports = router;

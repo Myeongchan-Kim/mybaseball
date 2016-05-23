@@ -1,0 +1,107 @@
+<h3>경기 정보 </h3>
+{{data}}
+{{#each game_info}}
+<h4>기본정보</h4>
+<table>
+  <thead>
+    <tr>
+      <th>리그명</th><th>분류</th><th>날짜</th>
+      <th>홈팀</th><th>점수</th><th>점수</th><th>원정팀</th>
+      <th>결과</th>
+    </tr>
+  </thead>
+  <tr>
+    <td><a href="/show/league/{{league_id}}">{{리그명}}</a></td>
+    <td>{{round}}</td>
+    <td>{{경기날짜}}</td>
+    <td><a href="/show/team/{{hleague_id}}">{{home}}</a></td>
+    <td>{{hscore}}</td>
+    <td>{{ascore}}</td>
+    <td><a href="/show/team/{{league_id}}">{{away}}</a></td>
+    <td>{{결과}}</td>
+  </tr>
+  <tbody>
+  </tbody>
+</table>
+<h4>스코어보드</h4>
+<table>
+  {{#if scoreboard}}
+  스코어보드
+  {{else}}
+  <tr><td>스코어보드가 없습니다.</td></tr>
+  {{/if}}
+</table>
+{{else}}
+Nodata
+{{/each}}
+<h4>홈팀</h4>
+<table id="myTable" class="tablesorter">
+  {{#if home_batter_list}}
+  <thead>
+    <tr>
+      <th>이름</th><th>타석</th><th>타수</th>
+      <th>총 안타</th><th>2루타</th><th>3루타</th><th>홈런</th>
+      <th>득점</th><th>타점</th><th>사사구</th><th>삼진</th>
+      <th>희플</th><th>타율</th><th>출루율</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each home_batter_list}}
+    <tr>
+      <td><a href="/show/player/{{player_id}}">{{player_name}}</a></td>
+      <td>{{타석}}</td>
+      <td>{{타수}}</td>
+      <td>{{total_hit}}</td>
+      <td>{{hit2}}</td>
+      <td>{{hit3}}</td>
+      <td>{{hr}}</td>
+      <td>{{r}}</td>
+      <td>{{rbi}}</td>
+      <td>{{bb}}</td>
+      <td>{{k}}</td>
+      <td>{{sf}}</td>
+      <td>{{타율}}</td>
+      <td>{{출루율}}</td>
+    </tr>
+    {{/each}}
+    {{else}}
+    <tr><td>타자 기록이 없습니다.</td></tr>
+    {{/if}}
+  </tbody>
+</table>
+
+<h4>원정팀</h4>
+<table id="myTable" class="tablesorter">
+  {{#if away_batter_list}}
+  <thead>
+    <tr>
+      <th>이름</th><th>타석</th><th>타수</th>
+      <th>총 안타</th><th>2루타</th><th>3루타</th><th>홈런</th>
+      <th>득점</th><th>타점</th><th>사사구</th><th>삼진</th>
+      <th>희플</th><th>타율</th><th>출루율</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each away_batter_list}}
+    <tr>
+      <td><a href="/show/player/{{player_id}}">{{player_name}}</a></td>
+      <td>{{타석}}</td>
+      <td>{{타수}}</td>
+      <td>{{total_hit}}</td>
+      <td>{{hit2}}</td>
+      <td>{{hit3}}</td>
+      <td>{{hr}}</td>
+      <td>{{r}}</td>
+      <td>{{rbi}}</td>
+      <td>{{bb}}</td>
+      <td>{{k}}</td>
+      <td>{{sf}}</td>
+      <td>{{타율}}</td>
+      <td>{{출루율}}</td>
+    </tr>
+    {{/each}}
+    {{else}}
+    <tr><td>타자 기록이 없습니다.</td></tr>
+    {{/if}}
+  </tbody>
+</table>
