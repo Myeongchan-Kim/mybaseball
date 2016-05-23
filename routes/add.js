@@ -17,7 +17,20 @@ router.route('/')
 });
 
 router.route('/organization').get(function (req, res){
-  res.render('add_organization', {});
+  var query = util.format("SELECT org_num, org_name FROM organization;");
+  pool.query(query, function(err, rows, fields) {
+    if (err) throw err;
+    res.render('add_organization', {org_list:rows});
+  });
+});
+
+router.route('/organization').post(function (req, res){
+  var query = util.format("INSERT INTO organization (org_name) VALUES ('%s');",req.body.org_name);
+  pool.query(query, function(err, rows, fields) {
+    if (err)
+      res.redirect("/error/query");
+    res.redirect("/add/organization");
+  });
 });
 
 router.route('/league').get(function (req, res){

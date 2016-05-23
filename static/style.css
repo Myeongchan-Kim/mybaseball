@@ -3,25 +3,30 @@
   font-family:'NanumGothic', '나눔고딕', 'Malgun Gothic', '맑은 고딕', 'dotum', '돋움';
   font-weight:bold;
   list-style:none;
-  color:#BBB;
   }
+div { color:#BBB;}
 h1 { font-size:2em; color:#DFF; font-weight:bold; background:#566; padding:10px}
 h2 { display:none; padding:5px; font-size:2em; font-weight:bold; color:#FF0; background:#999; border-bottom:3px solid #FFF; margin:20px; margin-bottom:0}
-h3 { padding:5px;font-size:large; font-weight:bold; color:#EEA; background:#666; border-bottom:3px solid #FFF; margin:20px;margin-bottom:0px;}
-h4 { padding:5px;font-weight:bold; color:#DDB; background:#666; border-bottom:2px solid #FFF; margin:20px;margin-bottom:0px;}
+h3 { padding:5px;font-size:large; font-weight:bold; color:#EEA; background:#666; border-bottom:3px solid #FFF;
+  margin:20px;
+  margin-right:0px;
+  margin-bottom:0px;
+  width:850px;
+}
+h4 { padding:5px;font-weight:bold; color:#DDB; background:#666; border-bottom:2px solid #FFF;
+  margin:20px;
+  margin-bottom:0px;
+  margin-right:0px;
+  width:850px;
+}
 a { font:inherit; color:#EEE; }
-select {
-  color:#111;
-}
-.wrapping-box{
-  margin-top : 10px;
-}
-input {
-  color:#111;
-}
-option{
-  color: #111;
-}
+select { color:#111;}
+.wrapping-box{  margin-top : 10px;}
+li .wrapping-box{}
+label {  left:10px;}
+input {  color:#111;}
+option{  color: #111;}
+button{ position:relative; color: #111;}
 a:hover { text-decoration:underline;}
 input{}
 input : invalid{background:red;}
@@ -39,7 +44,17 @@ footer {
 }
 
 ul{
-    padding-left: 20px;
+  padding-left:20px;
+}
+
+.main_container ul{
+  margin:20px;
+  padding-left:0;
+}
+
+.main_container{
+    margin-left: 150px;
+    width: 900px;
 }
 
 div .playerInfo{
@@ -47,7 +62,7 @@ div .playerInfo{
 }
 
 table {
-    width: 900px;
+    width: 850px;
     text-align: center;
     border: 3px solid #354;
     margin: 0 auto;
@@ -95,11 +110,6 @@ nav li {
     background-color:#455;
     padding:20px;
     float: left;
-}
-
-.main_container{
-    margin-left: 150px;
-    width: 1000px;
 }
 
 .condition_list li{

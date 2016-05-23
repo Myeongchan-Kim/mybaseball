@@ -1,0 +1,25 @@
+<h3>기관 추가</h3>
+<h4>목록</h4>
+<ul>
+{{#each org_list}}
+<li><div class="wrapping-box">
+  <label>{{org_name}}</label>
+  <!--<button value="delete">삭제</button>-->
+</div></li>
+{{/each}}
+</ul>
+{{!--data--}}
+<h4>추가</h4>
+<form method="POST" action="">
+  <div class = "wrapping-box">
+  <ul>
+    <li>단체 명: <input type="text" name="org_name" class="required" required ></li>
+    <li><input type="submit" value="입력" id="submit_button"></li>
+  </div>
+  </ul>
+</form>
+<script>
+$("#submit_button").click(function(){
+  $(".required").val($(".required").val().trim());
+});
+</script>
