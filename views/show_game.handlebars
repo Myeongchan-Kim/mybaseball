@@ -10,7 +10,7 @@
     </tr>
   </thead>
   <tr>
-    <td><a href="/search/league/{{league_id}}">{{리그명}}</a></td>
+    <td><a href="/show/league/{{league_id}}">{{리그명}}</a></td>
     <td>{{round}}</td>
     <td>{{경기날짜}}</td>
     <td><a href="/show/team/{{hteam_id}}">{{home}}</a></td>
@@ -48,8 +48,8 @@ Nodata
     {{#each home_batter_list}}
     <tr>
       <td><a href="/show/player/{{player_id}}">{{player_name}}</a></td>
-      <td>{{타석}}</td>
-      <td>{{타수}}</td>
+      <td>{{total_plate}}</td>
+      <td>{{at_bat}}</td>
       <td>{{total_hit}}</td>
       <td>{{hit2}}</td>
       <td>{{hit3}}</td>
@@ -58,7 +58,7 @@ Nodata
       <td>{{rbi}}</td>
       <td>{{bb}}</td>
       <td>{{k}}</td>
-      <td>{{sf}}</td>
+      <td>{{sacf}}</td>
       <td>{{타율}}</td>
       <td>{{출루율}}</td>
     </tr>
@@ -84,8 +84,8 @@ Nodata
     {{#each away_batter_list}}
     <tr>
       <td><a href="/show/player/{{player_id}}">{{player_name}}</a></td>
-      <td>{{타석}}</td>
-      <td>{{타수}}</td>
+      <td>{{total_plate}}</td>
+      <td>{{at_bat}}</td>
       <td>{{total_hit}}</td>
       <td>{{hit2}}</td>
       <td>{{hit3}}</td>
@@ -94,7 +94,7 @@ Nodata
       <td>{{rbi}}</td>
       <td>{{bb}}</td>
       <td>{{k}}</td>
-      <td>{{sf}}</td>
+      <td>{{sacf}}</td>
       <td>{{타율}}</td>
       <td>{{출루율}}</td>
     </tr>
