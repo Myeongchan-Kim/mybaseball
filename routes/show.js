@@ -44,9 +44,15 @@ router.route('/team/:id').get(function (req, res){
   });
 });
 
-router.route('/player/:id')
-.get(function (req, res){
-  res.render('test', {data:req.params.id});
+router.route('/player/:id').get(function (req, res){
+  var query = util.format("select player_id, player_name, birth, if(pro = 1, '선출', '비선출') as pro, highschool, main_position from player where player_id = %d", req.params.id);
+  pool.query(query, function(err, rows, fields) {
+    var player_info = rows;
+    query = util.format("CALL load_player_history(%d);", req.params.id);
+    pool.query(query, function(err, rows, fields) {
+      res.render('show_player', {player_info:player_info, player_history : rows[0], data: JSON.stringify(rows)});
+    });
+  });
 });
 
 router.route('/game/:id')
