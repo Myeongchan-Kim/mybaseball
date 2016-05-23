@@ -13,11 +13,11 @@
       {{/each}}
   </table>
 </div>
-{{#if rank_table}}
 <div class="ranking_table">
   <h3>팀 순위표</h3>
   <table class="result_table">
-    <tr>
+    {{#if rank_table}}
+      <tr>
       <th>팀명</th><th>승</th><th>무</th><th>패</th><th>승률</th>
     </tr>
     {{#each rank_table}}
@@ -27,7 +27,8 @@
     {{else}}
     <tr>no data</tr>
     {{/each}}
+  {{else}}
+  <tr><td>데이터가 없습니다.</td></tr>
+  {{/if}}
   </table>
 </div>
-{{/if}}
-공사중 searchLeague<br />
