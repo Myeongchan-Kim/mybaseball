@@ -23,20 +23,6 @@ router.get('/league', function (req, res){
   });
 });
 
-router.get('/league/:id',function (req, res){
-  var query = util.format("SELECT league_id, league_year, league_name FROM league WHERE league_id = %d;", req.params.id);
-  pool.query(query, function(err, rows, fields) {
-    if (err) throw err;
-    var league_list = rows;
-    query = util.format("CALL load_rank_table(%d)", req.params.id);
-    pool.query(query, function (err, rows, fields){
-        var rank_table = rows[0];
-        //console.log(rank_table);
-        res.render('searchLeague', { league_list : league_list, rank_table:rank_table});
-    });
-  });
-});
-
 router.route('/team').get(function (req, res){
   res.render('test', {data:"search team"});
 });

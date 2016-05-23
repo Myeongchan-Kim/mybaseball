@@ -11,9 +11,18 @@ var pool = mysql.createPool({
   password : 'aOVG1L2xDC'
 });
 
-router.route('/league/:leagueId')
-.get(function (req, res){
-  res.render('showLeague', {data: req.params.leagueId});
+router.get('/league/:id',function (req, res){
+  var query = util.format("SELECT league_id, league_year, league_name FROM league WHERE league_id = %d;", req.params.id);
+  pool.query(query, function(err, rows, fields) {
+    if (err) throw err;
+    var league_list = rows;
+    query = util.format("CALL load_rank_table(%d)", req.params.id);
+    pool.query(query, function (err, rows, fields){
+        var rank_table = rows[0];
+        //console.log(rank_table);
+        res.render('searchLeague', { league_list : league_list, rank_table:rank_table});
+    });
+  });
 });
 
 router.route('/league/rank/team/:leagueId')
@@ -60,16 +69,19 @@ router.route('/game/:id').get(function (req, res){
   pool.query(query, function(err, rows, fields) {
     var game_info = rows[0];
     var hometeam = rows[0][0]['hteam_id'];
-    var awayteam;
+    var awayteam = rows[0][0]['ateam_id'];
     query = util.format("CALL load_batter_record_of_game_team(%d, %d);", req.params.id, hometeam);
     pool.query(query, function(err, rows, fields) {
-      var home_batter_List = rows[0];
-      var away_batter_List;
-    res.render('show_game', {
-      game_info : game_info,
-      home_batter_List: home_batter_List,
-      away_batter_List:away_batter_List,
-      data: JSON.stringify(rows)});
+      var home_batter_list = rows[0];
+      query = util.format("CALL load_batter_record_of_game_team(%d, %d);", req.params.id, awayteam);
+      pool.query(query, function(err, rows, fields) {
+        var away_batter_list = rows[0];
+      res.render('show_game', {
+        game_info : game_info,
+        home_batter_list: home_batter_list,
+        away_batter_list: away_batter_list,
+        data: JSON.stringify(rows)});
+      });
     });
   });
 });

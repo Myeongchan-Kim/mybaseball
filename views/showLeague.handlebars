@@ -1,34 +1,32 @@
-<div class="description">
-    <h3>소개</h3>
-    <div class="wrapper">
-        <p class="p_description">
-        {% for row in description %}
-            {% for word in row %}
-            <span>{{ word }}</span>
-            {% endfor %}
-        {% endfor %}
-        </p>
-    </div>
+<div class="show_league">
+  <h3>리그</h3>
+  <table class="result_table">
+      <tr>
+        <th>년도</th><th>이름</th>
+      </tr>
+      {{#each league_list}}
+      <tr>
+          <td>{{league_year}}</td><td><a href="/search/league/{{league_id}}">{{league_name}}</td>
+      </tr>
+      {{else}}
+      <tr>no data</tr>
+      {{/each}}
+  </table>
 </div>
-<!--<div class="condition_container">-->
-    <!--<h3>condition box</h3>-->
-<!--</div>-->
-<div class="result_container">
-    <h3>result</h3>
-    {% for table in table_list %}
-    <table class="result_table">
-        <tr>
-            {% for column_name in table['index'] %}
-                <th><a>{{ column_name }}</a></th>
-            {% endfor %}
-        </tr>
-        {% for row in table['value'] %}
-        <tr>
-            {% for data in row %}
-            <td>{{ data }}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
-    {% endfor %}
+{{#if rank_table}}
+<div class="ranking_table">
+  <h3>팀 순위표</h3>
+  <table class="result_table">
+    <tr>
+      <th>팀명</th><th>승</th><th>무</th><th>패</th><th>승률</th>
+    </tr>
+    {{#each rank_table}}
+    <tr>
+        <td><a href="/show/team/{{team_id}}">{{team_name}}</a></td><td>{{win}}</td><td>{{draw}}</td><td>{{lose}}</td><td>{{승률}}</td>
+    </tr>
+    {{else}}
+    <tr>no data</tr>
+    {{/each}}
+  </table>
 </div>
+{{/if}}

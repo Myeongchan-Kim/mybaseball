@@ -30,5 +30,7 @@ $(document).ready(function()
     {
       console.log("ready");
       $("#myTable").tablesorter();
+      $("#myTable1").tablesorter();
+      $("#myTable2").tablesorter();
     }
 );

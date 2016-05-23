@@ -1,5 +1,4 @@
 <h3>경기 정보 </h3>
-{{data}}
 {{#each game_info}}
 <h4>기본정보</h4>
 <table>
@@ -11,13 +10,13 @@
     </tr>
   </thead>
   <tr>
-    <td><a href="/show/league/{{league_id}}">{{리그명}}</a></td>
+    <td><a href="/search/league/{{league_id}}">{{리그명}}</a></td>
     <td>{{round}}</td>
     <td>{{경기날짜}}</td>
-    <td><a href="/show/team/{{hleague_id}}">{{home}}</a></td>
+    <td><a href="/show/team/{{hteam_id}}">{{home}}</a></td>
     <td>{{hscore}}</td>
     <td>{{ascore}}</td>
-    <td><a href="/show/team/{{league_id}}">{{away}}</a></td>
+    <td><a href="/show/team/{{ateam_id}}">{{away}}</a></td>
     <td>{{결과}}</td>
   </tr>
   <tbody>
@@ -35,7 +34,7 @@
 Nodata
 {{/each}}
 <h4>홈팀</h4>
-<table id="myTable" class="tablesorter">
+<table id="myTable1" class="tablesorter">
   {{#if home_batter_list}}
   <thead>
     <tr>
@@ -71,7 +70,7 @@ Nodata
 </table>
 
 <h4>원정팀</h4>
-<table id="myTable" class="tablesorter">
+<table id="myTable2" class="tablesorter">
   {{#if away_batter_list}}
   <thead>
     <tr>
