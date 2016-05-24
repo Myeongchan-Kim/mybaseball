@@ -23,6 +23,23 @@
   </ul>
   </div>
 </form>
+<div class="show_league">
+  <h4>리그 목록. 팀 등록</h4>
+  <table class="result_table">
+      <tr>
+        <th>년도</th><th>이름</th><th></th>
+      </tr>
+      {{#each league_list}}
+      <tr>
+          <td>{{league_year}}</td>
+          <td><a href="/show/league/{{league_id}}">{{league_name}}</a></td>
+          <td><a href="/add/league/{{league_id}}">팀 추가 등록</a></td>
+      </tr>
+      {{else}}
+      <tr>no data</tr>
+      {{/each}}
+  </table>
+</div>
 <script>
 $(".org_select").change(function (){
   if($(this).children(":selected").html()== "추가..")

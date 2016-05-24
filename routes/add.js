@@ -37,7 +37,13 @@ router.route('/league').get(function (req, res){
   var query = util.format("SELECT org_num, org_name FROM organization;");
   pool.query(query, function(err, rows, fields) {
     if (err) throw err;
-    res.render('add_league', {org_list: rows, data:JSON.stringify(rows)});
+    var org_list = rows;
+    query = util.format("SELECT league_id, league_year, league_name FROM league;");
+    pool.query(query, function(err, rows, fields) {
+      if (err) throw err;
+      var league_list = rows;
+      res.render('add_league', {org_list: org_list, league_list: league_list, data:JSON.stringify(rows)});
+    });
   });
 });
 
@@ -50,6 +56,15 @@ router.route('/league').post(function (req, res){
     if (err)
       res.redirect("/error/query");
     res.redirect("/search/league");
+  });
+});
+
+router.route('/league/:id').get(function (req, res){
+  var query = util.format("");
+  pool.query(query, function(err, rows, fields) {
+    if (err)
+      res.redirect("/error/query");
+    res.render("add_team_to_league", {data:JSON.stringify(rows)});
   });
 });
 
