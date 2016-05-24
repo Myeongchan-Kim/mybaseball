@@ -13,10 +13,6 @@ h3 { padding:5px;font-size:large; font-weight:bold; color:#EEA; background:#666;
   margin-bottom:0px;
   width:850px;
 }
-.inlineList li{
-  display: inline-block;
-  width: 150px;
-}
 h4 { padding:5px;font-weight:bold; color:#DDB; background:#666; border-bottom:2px solid #FFF;
   margin:20px;
   margin-bottom:0px;
@@ -50,7 +46,14 @@ footer {
 ul{
   padding-left:20px;
 }
-
+.inlineList li{
+  display: inline-block;
+  width: 150px;
+  margin-bottom: 10px;
+}
+.inlineList button{
+  width: 150px;
+}
 .main_container ul{
   margin:20px;
   padding-left:0;

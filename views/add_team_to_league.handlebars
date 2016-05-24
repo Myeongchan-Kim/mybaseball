@@ -23,12 +23,12 @@
       {{/each}}
     </ul>
   </div>
-  <h4>미가입팁</h4>
+  <h4>미가입팀 <span>(버튼을 누르면 가입됩니다.)</span></h4>
   <div class="wrapping-box">
     <form action="" method="POST">
     <ul class="inlineList">
       {{#each team_out_list}}
-      <li><button name="team_id" type="submit" value="{{team_id}}">{{team_name}}({{location}})</button><li>
+      <li><button name="team_id" type="submit" value="{{team_id}}">{{team_name}}({{location}})</button></li>
       {{else}}
       <li>no data</li>
       {{/each}}
