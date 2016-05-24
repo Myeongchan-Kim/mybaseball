@@ -53,9 +53,24 @@ router.route('/league').post(function (req, res){
   });
 });
 
-router.route('/team')
-.get(function (req, res){
-  res.render('test', {data:"add team"});
+router.route('/team').get(function (req, res){
+  var query = "select * from team;"
+  pool.query(query, function(err, rows, fields) {
+    if (err)
+      res.redirect("/error/query");
+    res.render('add_team', {data: JSON.stringify(rows), team_list : rows});
+  });
+});
+
+router.route('/team').post(function (req, res){
+  var query = util.format(
+    "insert into team (team_name, location) values('%s', '%s');",
+     req.body.team_name, req.body.location);
+  pool.query(query, function(err, rows, fields) {
+    if (err)
+      res.redirect("/error/query");
+    res.redirect('/add/team');
+  });
 });
 
 router.route('/player')

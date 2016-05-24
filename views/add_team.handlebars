@@ -1,0 +1,25 @@
+<h3>팀 추가</h3>
+{{!--data--}}
+<form method="POST" action="">
+  <div class = "wrapping-box">
+  <ul>
+    <li>팀명 : <input type="text" name="team_name" class="required" required ></li>
+    <li>지역 : <input type="text" name="location" class="required" required ></li>
+    <li> <input type="submit" value="입력" id="submit_button"></li>
+  </ul>
+  </div>
+</form>
+<h4>팀 명단</h4>
+<ul>
+{{#each team_list}}
+<li><div class="wrapping-box">
+  <label>{{team_name}}</label><span> ({{location}})</span>
+  <!--<button value="delete">삭제</button>-->
+</div></li>
+{{/each}}
+</ul>
+<script>
+$("#submit_button").click(function(){
+  $(".required").val($(".required").val().trim());
+});
+</script>
