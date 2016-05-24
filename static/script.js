@@ -26,11 +26,16 @@ function get_where_string(){
     location.href=target_url;
 }
 
-$(document).ready(function()
+$(document).ready(function(){
+  console.log("ready");
+  $("#myTable").tablesorter();
+  $("#myTable1").tablesorter();
+  $("#myTable2").tablesorter();
+  $("#submit_button").click(function(){
+    var reqList = $(".required");
+    for(var i=0; i < reqList.length; i++)
     {
-      console.log("ready");
-      $("#myTable").tablesorter();
-      $("#myTable1").tablesorter();
-      $("#myTable2").tablesorter();
+      $(reqList[i]).val($(reqList[i]).val().trim());
     }
-);
+  });
+});

@@ -4,7 +4,7 @@
   <div class = "wrapping-box">
   <ul>
     <li>팀명 : <input type="text" name="team_name" class="required" required ></li>
-    <li>지역 : <input type="text" name="location" class="required" required ></li>
+    <li>지역 : <input type="text" name="location"  class="required" required ></li>
     <li> <input type="submit" value="입력" id="submit_button"></li>
   </ul>
   </div>
@@ -18,8 +18,3 @@
 </div></li>
 {{/each}}
 </ul>
-<script>
-$("#submit_button").click(function(){
-  $(".required").val($(".required").val().trim());
-});
-</script>
