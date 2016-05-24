@@ -1,0 +1,38 @@
+<h3>팀 추가</h3>
+<div class="show_league">
+  <h4> 리그명 </h4>
+  <table class="result_table">
+      <tr>
+        <th>년도</th><th>이름</th>
+      </tr>
+      {{#each league_list}}
+      <tr>
+          <td>{{league_year}}</td><td><a href="/show/league/{{league_id}}">{{league_name}}</td>
+      </tr>
+      {{else}}
+      <tr>no data</tr>
+      {{/each}}
+  </table>
+  <h4>현재 가입팁</h4>
+  <div class="wrapping-box">
+    <ul class="inlineList">
+      {{#each team_in_list}}
+      <li>{{team_name}}({{location}})</li>
+      {{else}}
+      <li>no data</li>
+      {{/each}}
+    </ul>
+  </div>
+  <h4>미가입팁</h4>
+  <div class="wrapping-box">
+    <form action="" method="POST">
+    <ul class="inlineList">
+      {{#each team_out_list}}
+      <li><button name="team_id" type="submit" value="{{team_id}}">{{team_name}}({{location}})</button><li>
+      {{else}}
+      <li>no data</li>
+      {{/each}}
+    </ul>
+  </form>
+  </div>
+</div>

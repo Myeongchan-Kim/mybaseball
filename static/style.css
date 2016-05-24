@@ -13,6 +13,10 @@ h3 { padding:5px;font-size:large; font-weight:bold; color:#EEA; background:#666;
   margin-bottom:0px;
   width:850px;
 }
+.inlineList li{
+  display: inline-block;
+  width: 150px;
+}
 h4 { padding:5px;font-weight:bold; color:#DDB; background:#666; border-bottom:2px solid #FFF;
   margin:20px;
   margin-bottom:0px;

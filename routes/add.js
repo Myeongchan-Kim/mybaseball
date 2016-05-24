@@ -60,13 +60,41 @@ router.route('/league').post(function (req, res){
 });
 
 router.route('/league/:id').get(function (req, res){
-  var query = util.format("");
+  var query = util.format("SELECT league_id, league_year, league_name FROM league WHERE league_id = %d;", req.params.id);
   pool.query(query, function(err, rows, fields) {
-    if (err)
-      res.redirect("/error/query");
-    res.render("add_team_to_league", {data:JSON.stringify(rows)});
+    if (err) throw err;
+    var league_list = rows;
+    query = util.format(
+      "select * from participate as p	LEFT JOIN team as t on p.team_id = t.team_id where league_id = %d;", req.params.id);
+    pool.query(query, function(err, rows, fields) {
+      if (err) throw err;
+      var team_in_list = rows;
+      query = util.format(
+        "select * from team where team_id not in (select t.team_id " +
+        "from participate as p LEFT JOIN team as t on p.team_id = t.team_id "+
+        "where league_id = %d );", req.params.id);
+      pool.query(query, function(err, rows, fields) {
+        if (err) throw err;
+        var team_out_list = rows;
+        res.render("add_team_to_league", {
+          team_out_list : team_out_list,
+          team_in_list: team_in_list,
+          league_list : league_list,
+          data:JSON.stringify(rows)});
+      });
+    });
   });
 });
+
+router.route('/league/:id').post(function (req, res){
+  console.log("add team to league ", req.body.team_id, req.params.id);
+  var query = util.format(
+    "insert into participate (league_id, team_id) values (%d, %d);", req.params.id, req.body.team_id);
+  pool.query(query, function(err, rows, fields) {
+    res.redirect(util.format("/add/league/%d",req.params.id));
+  });
+});
+
 
 router.route('/team').get(function (req, res){
   var query = "select * from team;"
